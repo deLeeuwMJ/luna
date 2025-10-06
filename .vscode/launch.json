@@ -6,7 +6,10 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/luna.exe",
-            "args": [],
+            "args": [
+                // "kick_loop.wav"
+                "piano_loop.wav"
+            ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/build/",
             "environment": [],
