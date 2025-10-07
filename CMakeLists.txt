@@ -5,6 +5,11 @@ project(luna CXX)
 set(FFTW_DIR ${CMAKE_SOURCE_DIR}/libs/fftw335dll64)
 set(SNDF_DIR ${CMAKE_SOURCE_DIR}/libs/libsndfile122win64)
 
+include(FetchContent)
+
+FetchContent_Declare(json URL https://github.com/nlohmann/json/releases/download/v3.12.0/json.tar.xz)
+FetchContent_MakeAvailable(json)
+
 add_executable(luna main.cpp)
 
 target_include_directories(luna PRIVATE
@@ -17,6 +22,7 @@ target_link_libraries(luna PRIVATE
     "${FFTW_DIR}/libfftw3f-3.lib"
     "${FFTW_DIR}/libfftw3l-3.lib"
     "${SNDF_DIR}/lib/sndfile.lib"
+    nlohmann_json::nlohmann_json
 )
 
 set(FFTW_DLLS

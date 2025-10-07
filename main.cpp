@@ -3,13 +3,34 @@
 #include <cmath>
 #include <sndfile.h>
 #include <fftw3.h>
-#include <iostream>
 #include <numeric>
 #include <algorithm>
 #include <iomanip>
+#include <nlohmann/json.hpp>
+#include <fstream>
+#include <string>
 
 int next_power_of_2(int n) {
     return pow(2, ceil(log2(n)));
+}
+
+struct BeatMetaData
+{
+    double time;
+};
+
+nlohmann::json convert_to_json_array(const std::vector<BeatMetaData>& beat_data)
+{
+    nlohmann::json json_array = nlohmann::json::array();
+
+    for (const auto& meta_data : beat_data)
+    {
+        nlohmann::json beat_object;
+        beat_object["beat_trigger"] = meta_data.time;
+        json_array.push_back(beat_object);
+    }
+
+    return json_array;
 }
 
 int main(int argc, char* argv[]) {
@@ -28,8 +49,8 @@ int main(int argc, char* argv[]) {
     }
 
 
-    // We want to measure every 100ms, a sample rate is the how many samples are per second, to get the reference every 100ms
-    const double CHUNK_DURATION_MS = 100.0;
+    // We want to measure every N ms, a sample rate is the how many samples are per second, to get the reference every N ms
+    const double CHUNK_DURATION_MS = 250.0;
     const int CHUNK_SAMPLES = static_cast<int>(sfinfo.samplerate * (CHUNK_DURATION_MS / 1000.0));
 
     // The FFT is the most efficient in power 2. Since we only take part of the samples (e.g. 4410) we find the nearest ceiling and fill the left over with zeros (Zero padding) 
@@ -80,9 +101,8 @@ int main(int argc, char* argv[]) {
     sf_count_t frames_read;
     double current_time = 0.0;
 
-    std::cout << "Starting Spectral Flux Analysis..." << std::endl;
-    std::cout << "Beat Detection Threshold: " << BEAT_THRESHOLD << std::endl;
-    std::cout << "------------------------------------------" << std::endl;
+    // Store all saved beats
+    std::vector<BeatMetaData> beats;
 
     while ((frames_read = sf_readf_double(infile, audio_chunk.data(), CHUNK_SAMPLES)) > 0) {
         // Zero out the FFT input buffer
@@ -120,18 +140,8 @@ int main(int argc, char* argv[]) {
             spectral_flux += std::max(0.0, diff);
         }
 
-        // ------------------------------------------
-        // BEAT IDENTIFICATION
-        // ------------------------------------------
-        if (spectral_flux > BEAT_THRESHOLD) {
-            std::cout << "Time: " << std::fixed << std::setprecision(3) << current_time 
-                      << "s | *** BEAT DETECTED *** | Flux: " 
-                      << std::fixed << std::setprecision(1) << spectral_flux << std::endl;
-        } else {
-             // For debugging/analysis, you can print the flux even if no beat is detected:
-             std::cout << "Time: " << current_time << "s | Flux: " << spectral_flux << std::endl;
-        }
-
+        if (spectral_flux > BEAT_THRESHOLD)
+            beats.push_back({current_time});
 
         // IMPORTANT: Update the previous magnitudes for the next iteration
         previous_magnitudes = current_magnitudes;
@@ -139,10 +149,24 @@ int main(int argc, char* argv[]) {
         current_time += (CHUNK_DURATION_MS / 1000.0);
     }
 
-    std::cout << "------------------------------------------" << std::endl;
-    std::cout << "End of file reached." << std::endl;
+    nlohmann::json data_arr = convert_to_json_array(beats);
+    std::string data = data_arr.dump(4);
 
-    // Free up memory
+    for (const auto& beat: beats)
+    {
+        std::cout << "Time: " << std::fixed << std::setprecision(3) << beat.time << std::endl;
+    }
+
+    std::ofstream output_file("beat_map.json");
+    
+    if (!output_file.is_open())  {
+        std::cout << "\n Failed to open output file";
+    } else {
+        output_file << data;
+        output_file.close();
+    }
+        
+
     fftw_destroy_plan(plan);
     fftw_free(fft_in);
     fftw_free(fft_out);

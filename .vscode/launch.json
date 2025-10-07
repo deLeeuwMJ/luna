@@ -7,8 +7,8 @@
             "request": "launch",
             "program": "${workspaceFolder}/build/luna.exe",
             "args": [
-                // "kick_loop.wav"
-                "piano_loop.wav"
+                "kick_loop.wav"
+                // "piano_loop.wav"
             ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/build/",
