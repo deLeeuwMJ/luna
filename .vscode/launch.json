@@ -5,13 +5,13 @@
             "name": "(gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/luna.exe",
+            "program": "${command:cmake.launchTargetPath}",
             "args": [
-                "kick_loop.wav"
-                // "piano_loop.wav"
+                "${workspaceFolder}/support/kick_loop.wav"
+                // "${workspaceFolder}/support/piano_loop.wav"
             ],
             "stopAtEntry": false,
-            "cwd": "${workspaceFolder}/build/",
+            "cwd": "${command:cmake.launchTargetDirectory}",
             "environment": [],
             "externalConsole": false,
             "MIMode": "gdb",
