@@ -73,6 +73,7 @@ add_executable(rhythm_game
 target_link_libraries( rhythm_game PRIVATE
     SOLOUD
     winmm
+    nlohmann_json::nlohmann_json
 )
 
 set_target_properties(rhythm_game PROPERTIES
