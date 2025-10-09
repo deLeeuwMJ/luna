@@ -7,8 +7,8 @@
             "request": "launch",
             "program": "${command:cmake.launchTargetPath}",
             "args": [
-                "${workspaceFolder}/support/kick_loop.wav"
-                // "${workspaceFolder}/support/piano_loop.wav"
+                // "${workspaceFolder}/support/kick_loop.wav"
+                "${workspaceFolder}/support/piano_loop.wav"
             ],
             "stopAtEntry": false,
             "cwd": "${command:cmake.launchTargetDirectory}",
