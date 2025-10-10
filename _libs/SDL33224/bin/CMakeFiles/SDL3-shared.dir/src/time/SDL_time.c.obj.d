@@ -1,0 +1,4 @@
+C:/Users/jayso/Documents/Github/luna/_libs/SDL33224/bin/CMakeFiles/SDL3-shared.dir/src/time/SDL_time.c.obj: \
+ C:\Users\jayso\Documents\Github\luna\_libs\SDL33224\src\time\SDL_time.c \
+ C:/Users/jayso/Documents/Github/luna/_libs/SDL33224/src/SDL_internal.h \
+ C:\Users\jayso\Documents\Github\luna\_libs\SDL33224\src\time\SDL_time_c.h

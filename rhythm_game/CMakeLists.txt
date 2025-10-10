@@ -57,6 +57,11 @@ set(SOLOUD_SOURCE
   ${SOLOUD_SRC_DIR}/filter/soloud_waveshaperfilter.cpp
 )
 
+set(SDL_SDK_DIR "${LIBS_DIR}/SDL33224")
+set(SDL_BIN_DIR "${LIBS_DIR}/SDL33224/bin")
+
+add_subdirectory(${SDL_SDK_DIR} ${SDL_BIN_DIR} EXCLUDE_FROM_ALL)
+
 include_directories(
     ${SOLOUD_INC_DIR} 
 )
@@ -74,6 +79,7 @@ target_link_libraries( rhythm_game PRIVATE
     SOLOUD
     winmm
     nlohmann_json::nlohmann_json
+    SDL3::SDL3
 )
 
 set_target_properties(rhythm_game PROPERTIES

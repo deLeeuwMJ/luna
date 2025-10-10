@@ -1,0 +1,12 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/jayso/Documents/Github/luna/_libs/SDL33224/src/core/windows/version.rc
+winresrc.h
+C:/Users/jayso/Documents/Github/luna/_libs/SDL33224/src/core/windows/winresrc.h
+

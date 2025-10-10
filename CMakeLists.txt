@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.13)
 
-project(luna CXX)
+project(luna CXX C)
 
 set(GLOBAL_EXECUTABLE_OUTPUT_DIR "${PROJECT_BINARY_DIR}/bin")
 set(LIBS_DIR ${CMAKE_SOURCE_DIR}/_libs)
