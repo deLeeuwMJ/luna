@@ -93,6 +93,12 @@
         "shared_mutex": "cpp",
         "stop_token": "cpp",
         "thread": "cpp",
-        "typeindex": "cpp"
+        "typeindex": "cpp",
+        "coroutine": "cpp",
+        "resumable": "cpp",
+        "filesystem": "cpp",
+        "queue": "cpp",
+        "xhash": "cpp",
+        "xtree": "cpp"
     }
 }

@@ -73,6 +73,9 @@ add_library(SOLOUD STATIC
 
 add_executable(rhythm_game 
     main.cpp
+    core/sound_engine.cpp
+    core/render_engine.cpp
+    component/map_loader.cpp
 )
 
 target_link_libraries( rhythm_game PRIVATE
