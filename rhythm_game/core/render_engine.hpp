@@ -2,6 +2,7 @@
 
 #include <SDL3/SDL.h>
 #include <memory>
+#include <functional>
 
 namespace core
 {
@@ -21,7 +22,9 @@ namespace core
 
     enum RenderableScene
     {
-        EXAMPLE
+        NONE,
+        EXAMPLE,
+        ALTERNATIVE,
     };
 
     enum RenderableObject
@@ -61,6 +64,12 @@ namespace core
             SDL_Renderer* renderer = nullptr;
 
             bool active = true;
+
+            RenderableScene currentScene = RenderableScene::NONE;
+            static std::function<void(void)> sceneCallback;
+
+            void renderExampleScene();
+            void renderAlternativeScene();
     };
 
     std::unique_ptr<RenderEngine> determineRenderStrategy();

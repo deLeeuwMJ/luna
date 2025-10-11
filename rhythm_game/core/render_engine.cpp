@@ -49,7 +49,8 @@ namespace core
 
     void RenderEngineSDL3::render()
     {
-        // No-op for now, only one object
+        if (sceneCallback)
+            sceneCallback();
     }
 
     void RenderEngineSDL3::clear()
@@ -73,13 +74,47 @@ namespace core
         SDL_Delay(1000/60);
     }
 
+    std::function<void(void)> RenderEngineSDL3::sceneCallback = nullptr;
+
     void RenderEngineSDL3::setScene(RenderableScene scene)
     {
-        // No-op for now, only one scene
+        if (this->currentScene == scene)
+            return;
+
+        this->currentScene = scene;
+        std::cout << "Switched to "<< scene << std::endl;
+
+        switch(scene)
+        {
+            case EXAMPLE:
+                this->sceneCallback = [this]() {
+                     this->renderExampleScene(); 
+                    };
+                break;
+            case ALTERNATIVE:
+                this->sceneCallback = [this]() { 
+                    this->renderAlternativeScene();
+                 };
+        }
+    }
+
+    void RenderEngineSDL3::renderExampleScene()
+    {
+        SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+        SDL_RenderClear(renderer);
+        SDL_RenderPresent(renderer);
+    }
+
+    void RenderEngineSDL3::renderAlternativeScene()
+    {
+        SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
+        SDL_RenderClear(renderer);
+        SDL_RenderPresent(renderer);
     }
 
     void RenderEngineSDL3::spawnObject(RenderableObject object)
     {
+        std::cout << "Spawning object..." << std::endl;
         if (object == Tile) {
             auto color = randomColor();
             SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);

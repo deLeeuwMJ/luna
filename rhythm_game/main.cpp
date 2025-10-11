@@ -15,7 +15,6 @@ int main(int argc, char* argv[]) {
 
     soundEngine->setup();
     renderEngine->setup();
-    renderEngine->setScene(core::RenderableScene::EXAMPLE);
 
     auto beatMap = std::make_unique<MapLoader>();
     beatMap->loadBeatMap(FILE_PATH_BEAT_MAP);
@@ -37,6 +36,13 @@ int main(int argc, char* argv[]) {
 
             if (event.key.key == SDLK_Q && !soundEngine->isActive()) {
                 soundEngine->playSound();
+            }
+
+            if (event.key.key == SDLK_1) {
+                renderEngine->setScene(core::RenderableScene::EXAMPLE);
+            }
+            else if (event.key.key == SDLK_2) {
+                renderEngine->setScene(core::RenderableScene::ALTERNATIVE);
             }
         }
 
